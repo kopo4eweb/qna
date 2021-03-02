@@ -1,0 +1,100 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.7.0
+  NewCops: enable
+  Exclude:
+    - bin/**/*
+    - node_modules/**/*
+    - db/seeds.rb
+    - vendor/**/*
+    - spec/features/**/*
+
+  DisplayCopNames: true
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+
+Layout/LeadingCommentSpace:
+  Exclude:
+    - Gemfile
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented_relative_to_receiver
+
+Style/Documentation:
+  Enabled: false
+
+Style/FormatStringToken:
+  EnforcedStyle: template
+
+Style/HashEachMethods:
+  Enabled: false
+
+Style/HashTransformKeys:
+  Enabled: false
+
+Style/HashTransformValues:
+  Enabled: false
+
+Style/SymbolArray:
+  Exclude:
+    - Gemfile
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/BlockComments:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 200
+
+Metrics/MethodLength:
+  Max: 50
+  Exclude:
+    - db/seeds.rb
+
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - db/seeds.rb
+
+Metrics/BlockLength:
+  Exclude:
+    - config/environments/**/*
+    - db/**/*
+    - spec/**/*
+
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - db/seeds.rb
+
+Metrics/AbcSize:
+  Max: 40
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Naming/VariableNumber:
+  Enabled: true
+  EnforcedStyle: non_integer
+  Exclude:
+    - db/seeds.rb
+
+Rails/FilePath:
+  Enabled: false
