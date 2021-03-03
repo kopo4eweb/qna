@@ -18,6 +18,9 @@ AllCops:
 RSpec/MultipleExpectations:
   Enabled: false
 
+RSpec/ImplicitExpect:
+  EnforcedStyle: should
+
 Layout/LineLength:
   Max: 120
 
@@ -54,6 +57,9 @@ Style/StringLiterals:
   EnforcedStyle: single_quotes
 
 Style/BlockComments:
+  Enabled: false
+
+Style/NumericLiterals:
   Enabled: false
 
 Metrics/ClassLength:
