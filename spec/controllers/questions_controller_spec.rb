@@ -57,9 +57,11 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the question' do
-        expect do
+        # rubocop:disable Style/BlockDelimiters
+        expect {
           post :create, params: { question: attributes_for(:question, :invalid) }
-        end.not_to change(Question, :count)
+        }.not_to change(Question, :count)
+        # rubocop:enable Style/BlockDelimiters
       end
 
       it 're-renders new view' do
