@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can create answer of question', %q{
+feature 'User can create answer of question', %q(
   In order to help for a community
   As an any user
   I'd like to be able to given on the questions
-} do
-
+) do
   given(:question) { create(:question) }
 
   scenario 'user gives on answer on a question' do
@@ -26,5 +27,4 @@ feature 'User can create answer of question', %q{
 
     expect(page).to have_content "Body can't be blank"
   end
-
 end

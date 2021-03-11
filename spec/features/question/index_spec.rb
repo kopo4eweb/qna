@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can view all question', %q{
+feature 'User can view all question', %q(
   In order to get answer from a community
   As an any user
   I'd like to be able to look the all questions
-} do
-
+) do
   scenario 'the all questions' do
     questions = create_list(:question, 2)
 
