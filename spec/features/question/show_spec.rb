@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can to look a question and answers for it', %q{
+feature 'User can to look a question and answers for it', %q(
   In order to get answer from a community
   As an any user
   I'd like to be able to look the question and answers for it
-} do
-
+) do
   given(:question) { create(:question) }
 
   scenario 'show question and answers' do
