@@ -7,11 +7,17 @@ AllCops:
   TargetRubyVersion: 2.7.0
   NewCops: enable
   Exclude:
+    - app/assets/**/*
+    - app/javascript/**/*
+    - app/views/**/*
     - bin/**/*
-    - node_modules/**/*
-    - db/seeds.rb
     - vendor/**/*
-    - spec/features/**/*
+    - db/**/*
+    - spec/factories/**/*
+
+  Include:
+    - app/**/*
+    - spec/**/*
 
   DisplayCopNames: true
 
@@ -20,6 +26,12 @@ RSpec/MultipleExpectations:
 
 RSpec/ImplicitExpect:
   EnforcedStyle: should
+
+RSpec/Capybara/FeatureMethods:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 20
 
 Layout/LineLength:
   Max: 120
@@ -46,10 +58,6 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: false
 
-Style/SymbolArray:
-  Exclude:
-    - Gemfile
-
 Style/ClassAndModuleChildren:
   Enabled: false
 
@@ -62,33 +70,23 @@ Style/BlockComments:
 Style/NumericLiterals:
   Enabled: false
 
+Style/RedundantPercentQ:
+  Enabled: false
+
 Metrics/ClassLength:
   Max: 200
 
 Metrics/MethodLength:
   Max: 50
-  Exclude:
-    - db/seeds.rb
 
 Metrics/ParameterLists:
   CountKeywordArgs: false
 
-Metrics/PerceivedComplexity:
-  Exclude:
-    - db/seeds.rb
-
-Metrics/BlockLength:
-  Exclude:
-    - config/environments/**/*
-    - db/**/*
-    - spec/**/*
-
-Metrics/CyclomaticComplexity:
-  Exclude:
-    - db/seeds.rb
-
 Metrics/AbcSize:
   Max: 40
+
+Metrics/BlockLength:
+  Max: 120
 
 Lint/RaiseException:
   Enabled: true
@@ -99,8 +97,10 @@ Lint/StructNewOverride:
 Naming/VariableNumber:
   Enabled: true
   EnforcedStyle: non_integer
-  Exclude:
-    - db/seeds.rb
 
 Rails/FilePath:
   Enabled: false
+
+Lint/EmptyFile:
+  Exclude:
+    - /**/.keep
