@@ -1,4 +1,9 @@
 h1= @question.title
 p= @question.body
 
+hr
+- @question.answers.each do |answer|
+  p= answer.body
+
+hr
 =render 'answers/form'
