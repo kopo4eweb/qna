@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, only: :create
   before_action :find_question, only: :create
 
   def create
