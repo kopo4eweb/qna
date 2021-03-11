@@ -33,6 +33,9 @@ RSpec/Capybara/FeatureMethods:
 RSpec/ExampleLength:
   Max: 20
 
+RSpec/NestedGroups:
+  Max: 5
+
 Layout/LineLength:
   Max: 120
 
