@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :questions do
-    resource :answers, only: :create
+    resources :answers, shallow: true, only: %i[create destroy]
   end
 
   root to: 'questions#index'
