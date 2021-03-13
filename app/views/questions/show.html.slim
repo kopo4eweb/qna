@@ -1,10 +1,21 @@
 h1= @question.title
 p= @question.body
-p= link_to('Delete question', @question, method: :delete) if current_user&.author_of?(@question)
+- if current_user&.author_of?(@question)
+  p= link_to 'Delete question',
+          @question,
+          method: :delete,
+          data: { confirm: 'Are you sure?' }
 
 hr
 - @question.answers.each do |answer|
-  p= answer.body
+  -if answer.persisted?
+    div= answer.body
+    - if current_user&.author_of?(answer)
+      p= link_to 'Delete answer',
+              answer_path(answer),
+              method: :delete,
+              data: { confirm: 'Are you sure?' }
 
-hr
-=render 'answers/form'
+- if current_user.present?
+  hr
+  =render 'answers/form'

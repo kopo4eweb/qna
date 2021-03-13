@@ -8,7 +8,7 @@ feature 'User can create answer of question', %q(
   I'd like to be able to given on the questions
 ) do
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given(:question) { create(:question) }
 
   describe 'Authenticated user' do
     background do
@@ -34,11 +34,6 @@ feature 'User can create answer of question', %q(
 
   scenario 'Unauthenticated user tries gives on answer on a question' do
     visit question_path(question)
-
-    expect(page).to have_content 'New answer'
-    fill_in 'Body', with: 'New answer for question'
-    click_on 'Give an answer'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).not_to have_content 'New answer'
   end
 end

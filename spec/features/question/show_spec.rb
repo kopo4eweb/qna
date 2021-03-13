@@ -8,7 +8,7 @@ feature 'User can to look a question and answers for it', %q(
   I'd like to be able to look the question and answers for it
 ) do
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given(:question) { create(:question) }
 
   scenario 'show question and answers' do
     create(:answer, question: question)
