@@ -1,5 +1,6 @@
 h1= @question.title
 p= @question.body
+p= link_to('Delete question', @question, method: :delete) if current_user&.author_of?(@question)
 
 hr
 - @question.answers.each do |answer|
