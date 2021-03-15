@@ -14,6 +14,9 @@ feature 'User can delete own answer', %q(
     scenario 'deletes the own answer' do
       sign_in(answer.user)
       visit question_path(answer.question)
+
+      expect(page).to have_content answer.body
+
       click_on 'Delete answer'
 
       expect(page).to have_current_path question_path(answer.question)
@@ -23,12 +26,16 @@ feature 'User can delete own answer', %q(
     scenario 'tries delete the not own answer' do
       sign_in(user)
       visit question_path(answer.question)
+
+      expect(page).to have_content answer.body
       expect(page).not_to have_link 'Delete answer'
     end
   end
 
   scenario 'Unauthenticated user tries delete a answer' do
     visit question_path(answer.question)
+
+    expect(page).to have_content answer.body
     expect(page).not_to have_link 'Delete answer'
   end
 end

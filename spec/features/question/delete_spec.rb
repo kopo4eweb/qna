@@ -8,30 +8,44 @@ feature 'User can delete own question', %q(
 ) do
   given(:user) { create(:user) }
   given(:new_user) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given(:question) { create(:question) }
+  given(:answer) { create(:answer, question: question) }
 
   describe 'Authenticated user' do
     scenario 'deletes the own question' do
-      sign_in(user)
+      sign_in(question.user)
+      visit question_path(answer.question)
 
-      visit question_path(question)
-      expect(page).to have_content 'MyString'
+      expect(page).to have_content question.title
+      expect(page).to have_content question.body
+
+      expect(page).to have_content answer.body
 
       click_on 'Delete question'
 
-      expect(page).to have_content 'Question MyString delete.'
+      expect(page).to have_content "Question #{question.title} delete."
     end
 
     scenario 'tries delete the not own question' do
       sign_in(new_user)
 
-      visit question_path(question)
+      visit question_path(answer.question)
+      expect(page).to have_content question.title
+      expect(page).to have_content question.body
+
+      expect(page).to have_content answer.body
+
       expect(page).not_to have_link 'Delete question'
     end
   end
 
   scenario 'Unauthenticated user tries delete a question' do
-    visit question_path(question)
+    visit question_path(answer.question)
+    expect(page).to have_content question.title
+    expect(page).to have_content question.body
+
+    expect(page).to have_content answer.body
+
     expect(page).not_to have_link 'Delete question'
   end
 end

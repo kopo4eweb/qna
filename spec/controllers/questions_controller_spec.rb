@@ -91,8 +91,7 @@ RSpec.describe QuestionsController, type: :controller do
       before { login(user) }
 
       it 'checks that question was deleted' do
-        delete :destroy, params: { id: question }
-        expect(assigns(:question)).to be_destroyed
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
       end
 
       it 'redirects to questions list' do
@@ -110,9 +109,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
       end
 
-      it 'redirects to questions list' do
+      it 'redirects to question page' do
         delete :destroy, params: { id: question }
-        expect(response).to redirect_to questions_path
+        expect(response).to redirect_to question
       end
     end
 

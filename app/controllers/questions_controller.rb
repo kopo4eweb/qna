@@ -26,8 +26,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy if current_user&.author_of?(@question)
-    redirect_to questions_path, notice: "Question #{@question.title} delete."
+    if current_user&.author_of?(@question)
+      @question.destroy
+      redirect_to questions_path, notice: "Question #{@question.title} delete."
+    else
+      redirect_to @question, alert: "You don't have permission to delete this question"
+    end
   end
 
   private
