@@ -1,9 +1,17 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
+  sequence :title do |n|
+    "MyString#{n}"
+  end
+
+  sequence :body_question do |n|
+    "MyText#{n}"
+  end
+
   factory :question do
-    title { 'MyString' }
-    body { 'MyText' }
+    title
+    body { generate(:body_question) }
     user
 
     trait :invalid do
