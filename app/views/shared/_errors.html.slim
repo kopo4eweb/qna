@@ -1,5 +1,5 @@
 - if resource&.errors.present?
-  b= "#{resource.errors.count} error(s) detected: "
-  ul
+  .mb-3
+    .p-2.mb-2.bg-danger.text-white= "#{resource.errors.count} error(s) detected: "
     -resource.errors.full_messages.each do |message|
-      li= message
+      .ps-2.text-danger= message
