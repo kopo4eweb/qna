@@ -21,7 +21,10 @@ feature 'User can create answer of question', %q(
       fill_in 'Body', with: 'New answer for question'
       click_on 'Give an answer'
 
-      expect(page).to have_content 'Add new answer'
+      expect(current_path).to eq question_path(question)
+      within '.answers' do
+        expect(page).to have_content 'New answer for question'
+      end
     end
 
     scenario 'gives on answer on a question with errors' do
