@@ -22,6 +22,10 @@ module Qna
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.generators do |g|
+      g.stylesheets = false
+      g.javascripts = false
+      g.helper      = false
+
       g.test_framework :rspec,
                        controller_specs: true,
                        view_specs: false,
