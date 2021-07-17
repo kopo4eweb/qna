@@ -1,17 +1,23 @@
 doctype html
 html
   head
-    title Qna
+    meta charset='utf-8'
+    meta content="text/html; charset=UTF-8" http-equiv="Content-Type"
+    meta http-equiv='X-UA-Compatible' content='IE=Edge,chrome=1'
     meta name="viewport" content="width=device-width,initial-scale=1"
+    title Qna
     == csrf_meta_tags
     == csp_meta_tag
 
-    == stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    == stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     == javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
     = render 'shared/nav'
 
-    p.notice = notice
-    p.alert = alert
+    #flash
+      = render partial: 'shared/flash_messages'
 
-    == yield
+    .container.py-6.pb-4.mt-4
+      .row
+        .col-md-12
+          = yield

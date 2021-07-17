@@ -1,8 +1,17 @@
-= render 'shared/errors', resource: @question
+.card.shadow
+  .card-body.p-9
+    h2.text-center.mb-6
+      | New question
 
-= form_with model: @question, local: true do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Ask'
+    = render 'shared/errors', resource: @question
+
+    = form_with model: @question, local: true do |f|
+      .mb-3
+        = f.label :title, class: "form-label"
+        = f.text_field :title, autofocus: true, class: "form-control"
+      .mb-3
+        = f.label :body, class: "form-label"
+        = f.text_area :body, class: "form-control"
+
+      .mt-2.mb-4
+        = f.submit 'Ask', class: "btn btn-primary"

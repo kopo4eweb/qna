@@ -1,7 +1,11 @@
-h1 List question
-p= link_to 'Ask question', new_question_path
+.mb-5
+  .float-end
+    p= link_to 'Ask question', new_question_path, class: 'btn btn-primary'
+  h1 List question
 
 - @questions.each do |question|
-  div
-    h2= question.title
-    p= question.body
+  .card.mb-3
+    .card-body
+      h2= question.title
+      p= question.body
+      = link_to "show", question
