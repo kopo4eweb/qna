@@ -10,17 +10,22 @@ feature 'User can delete own answer', %q(
   given(:question) { create(:question) }
   given(:answer) { create(:answer) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     scenario 'deletes the own answer' do
       sign_in(answer.user)
       visit question_path(answer.question)
 
       expect(page).to have_content answer.body
 
-      click_on 'Delete answer'
+      accept_confirm do
+        click_link 'Delete answer'
+      end
 
-      expect(page).to have_current_path question_path(answer.question)
-      expect(page).not_to have_content answer.body
+      within '.answers' do
+        expect(page).not_to have_content answer.body
+        expect(page).not_to have_link 'Delete answer'
+        expect(page).to have_content 'Your answer removed.'
+      end
     end
 
     scenario 'tries delete the not own answer' do

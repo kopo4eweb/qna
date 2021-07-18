@@ -7,11 +7,13 @@
 
     - if current_user&.author_of?(answer)
       .card-footer
+        div class="answer-danger-#{answer.id}"
         .text-end
           = link_to 'Edit answer', '#', class: "edit-answer-link btn btn-primary btn-sm me-3", data: { answer_id: answer.id }
           = link_to 'Delete answer',
                   answer_path(answer),
                   method: :delete,
+                  remote: true,
                   data: { confirm: 'Are you sure?' },
                   class: "btn btn-outline-danger btn-sm"
 
