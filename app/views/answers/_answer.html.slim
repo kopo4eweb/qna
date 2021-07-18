@@ -1,0 +1,10 @@
+-if answer.persisted?
+  .card.mb-3
+    .card-body
+      = answer.body
+      - if current_user&.author_of?(answer)
+        .float-end= link_to 'Delete answer',
+                answer_path(answer),
+                method: :delete,
+                data: { confirm: 'Are you sure?' },
+                class: "btn btn-outline-danger btn-sm"

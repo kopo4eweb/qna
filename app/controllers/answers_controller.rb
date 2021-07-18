@@ -6,14 +6,7 @@ class AnswersController < ApplicationController
   before_action :find_answer, only: :destroy
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-
-    if @answer.save
-      redirect_to @question, notice: 'Add new answer'
-    else
-      render 'questions/show'
-    end
+    @answer = @question.answers.create(answer_params.merge(user: current_user))
   end
 
   def destroy
