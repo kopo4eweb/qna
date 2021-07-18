@@ -13,23 +13,13 @@ p= @question.body
 
 hr
 
-.mt-5.answers
+.mt-5
   h3 Answers
   - if @question.answers.count.zero?
     p
       | No the answer, be the first!
-  - @question.answers.each do |answer|
-    -if answer.persisted?
-      .card.mb-3
-        .card-body
-          = answer.body
-          - if current_user&.author_of?(answer)
-            .float-end= link_to 'Delete answer',
-                    answer_path(answer),
-                    method: :delete,
-                    data: { confirm: 'Are you sure?' },
-                    class: "btn btn-outline-danger btn-sm"
-
+  .answers
+    = render @question.answers
 
 - if current_user.present?
   .mt-5

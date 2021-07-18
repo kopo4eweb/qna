@@ -10,7 +10,7 @@ feature 'User can create answer of question', %q(
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
       visit question_path(question)
@@ -21,7 +21,7 @@ feature 'User can create answer of question', %q(
       fill_in 'Body', with: 'New answer for question'
       click_on 'Give an answer'
 
-      expect(current_path).to eq question_path(question)
+      expect(page).to have_current_path question_path(question), ignore_query: true
       within '.answers' do
         expect(page).to have_content 'New answer for question'
       end

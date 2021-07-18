@@ -13,14 +13,14 @@ RSpec.describe AnswersController, type: :controller do
       it 'saves a new answer for the question in the database' do
         # rubocop:disable Style/BlockDelimiters
         expect {
-          post :create, params: { question_id: question, answer: attributes_for(:answer) }
+          post :create, params: { question_id: question, answer: attributes_for(:answer) }, format: :js
         }.to change(question.answers, :count).by(1)
         # rubocop:enable Style/BlockDelimiters
       end
 
       it 'redirects to show view the question' do
-        post :create, params: { question_id: question, answer: attributes_for(:answer) }
-        expect(response).to redirect_to assigns(:question)
+        post :create, params: { question_id: question, answer: attributes_for(:answer) }, format: :js
+        expect(response).to render_template :create
       end
     end
 
@@ -28,14 +28,14 @@ RSpec.describe AnswersController, type: :controller do
       it 'does not save the answer' do
         # rubocop:disable Style/BlockDelimiters
         expect {
-          post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
+          post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }, format: :js
         }.not_to change(Answer, :count)
         # rubocop:enable Style/BlockDelimiters
       end
 
       it 're-renders new view' do
-        post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to render_template 'questions/show'
+        post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }, format: :js
+        expect(response).to render_template :create
       end
     end
   end
