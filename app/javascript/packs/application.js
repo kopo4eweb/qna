@@ -10,6 +10,7 @@ import "channels"
 require("jquery")
 require("bootstrap")
 require("./answers.js")
+require("./questions.js")
 
 Rails.start()
 Turbolinks.start()

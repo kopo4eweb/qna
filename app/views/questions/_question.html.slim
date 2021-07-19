@@ -1,0 +1,29 @@
+.card.mb-3 class="question-#{question.id}"
+  .card-body
+    h2= question.title
+    .mb-3
+      = question.body
+  - if current_user&.author_of?(question)
+    .card-footer
+      .d-flex
+        .text-start.me-auto
+          = link_to "Detail", question, class: "btn btn-info btn-sm"
+        .text-end
+          = link_to 'Edit question', '#', class: "edit-question-link btn btn-primary btn-sm", data: { question_id: question.id }
+
+      .card.shadow.mt-3 style="display: none;" class="edit-question-#{question.id}"
+        .card-body.p-9
+          div class="question-errors-#{question.id}"
+            = render 'shared/errors', resource: question
+
+          = form_with model: question, local: false do |f|
+            .mb-3
+              = f.label :title, class: "form-label"
+              = f.text_field :title, autofocus: true, class: "form-control"
+            .mb-3
+              = f.label :body, class: "form-label"
+              = f.text_area :body, class: "form-control"
+
+            .mt-2.mb-4
+              = f.submit 'Save', class: "btn btn-primary"
+              = link_to 'Cancel', '#', class: "cancel-question-link btn btn-secondary ms-4", data: { question_id: question.id }
