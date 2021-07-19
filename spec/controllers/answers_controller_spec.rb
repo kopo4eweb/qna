@@ -47,13 +47,13 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'change answer attributes' do
-        patch :update, params: { id: answer, answer: { body: 'New answer' } }, format: :js
+        patch :update, params: { id: answer, answer: { body: 'New answer body' } }, format: :js
         answer.reload
-        expect(answer.body).to eq 'New answer'
+        expect(answer.body).to eq 'New answer body'
       end
 
       it 'renders update view' do
-        patch :update, params: { id: answer, answer: { body: 'New answer' } }, format: :js
+        patch :update, params: { id: answer, answer: { body: 'New answer body' } }, format: :js
         expect(response).to render_template :update
       end
     end
@@ -70,6 +70,23 @@ RSpec.describe AnswersController, type: :controller do
       it 'renders update view' do
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
         expect(response).to render_template :update
+      end
+    end
+
+    context 'when user is not author' do
+      let(:new_user) { create(:user) }
+
+      before { login(new_user) }
+
+      it 'changes answer attributes' do
+        patch :update, params: {
+          id: answer,
+          answer: { body: 'New answer body' },
+          user: new_user
+        }, format: :js
+        answer.reload
+
+        expect(answer.body).not_to eq 'New answer body'
       end
     end
   end
@@ -101,7 +118,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to questions list' do
         delete :destroy, params: { id: answer }, format: :js
-        expect(response).to render_template :destroy
+        expect(response).to redirect_to question_path(answer.question)
       end
     end
 
