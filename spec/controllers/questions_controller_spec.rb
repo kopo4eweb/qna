@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question) }
@@ -88,6 +89,66 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+  describe 'PATCH #update' do
+    before { login(user) }
+
+    let!(:question) { create(:question, user: user) }
+
+    context 'with valid attributes' do
+      before do
+        patch :update,
+              params: {
+                id: question,
+                question: { title: 'New question', body: 'New question body' }
+              },
+              format: :js
+      end
+
+      it 'change question attributes' do
+        question.reload
+        expect(question.title).to eq 'New question'
+        expect(question.body).to eq 'New question body'
+      end
+
+      it 'renders update view' do
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not change question attributes' do
+        # rubocop:disable Style/BlockDelimiters
+        expect {
+          patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
+        }.not_to change(question, :title)
+        # rubocop:enable Style/BlockDelimiters
+      end
+
+      it 'renders update view' do
+        patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'when user is not author' do
+      let(:new_user) { create(:user) }
+
+      before { login(new_user) }
+
+      it 'changes question attributes' do
+        patch :update, params: {
+          id: question,
+          question: { title: 'New question', body: 'New question body' },
+          user: new_user
+        }, format: :js
+        question.reload
+
+        expect(question.title).not_to eq 'New question'
+        expect(question.body).not_to eq 'New question body'
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     let!(:question) { create(:question, user: user) }
 
@@ -131,3 +192,4 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
