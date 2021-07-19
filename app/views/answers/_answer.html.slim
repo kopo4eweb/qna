@@ -1,7 +1,17 @@
 -if answer.persisted?
   .card.mb-3 class="answer-#{answer.id}"
     .card-header
-      = answer.user.email
+      .text-secondary.d-inline-block.me-4 = answer.user.email
+      - if answer.best?
+        span.badge.rounded-pill.bg-warning.text-dark.best_answer_of_question Best answer!
+
+      - if current_user&.author_of?(answer.question)
+        = link_to 'Make it best',
+                select_best_answer_path(answer),
+                class: "btn btn-success btn-sm answer-make-best",
+                style: "#{answer.best? ? 'display: none;' : ''}",
+                method: :patch,
+                remote: true
     .card-body
       = answer.body
 

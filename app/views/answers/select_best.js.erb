@@ -1,0 +1,7 @@
+$('.answer-<%= @answer.id %>').remove();
+
+var parentOldBestAnswer = $('.best_answer_of_question').parent();
+parentOldBestAnswer.find('.best_answer_of_question').remove();
+parentOldBestAnswer.find('.answer-make-best').show();
+
+$('.answers').prepend('<%= j render @answer %>');
