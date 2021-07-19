@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question) }
@@ -133,4 +134,38 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #select_best' do
+    let!(:new_user) { create(:user) }
+    let!(:question) { create(:question, user: user) }
+    let!(:answer) { create(:answer, question: question, user: user) }
+
+    context 'when authenticated user' do
+      it 'author of question selected best answer' do
+        login(user)
+        patch :select_best, params: { id: answer }, format: :js
+        answer.reload
+
+        expect(answer.best).to be_truthy
+      end
+
+      it 'not author of question tries selected best answer' do
+        login(new_user)
+        patch :select_best, params: { id: answer }, format: :js
+        answer.reload
+
+        expect(answer.best).to be_falsey
+      end
+    end
+
+    context 'when unauthenticated user' do
+      it 'tries selected best answer' do
+        patch :select_best, params: { id: answer }, format: :js
+        answer.reload
+
+        expect(answer.best).to be_falsey
+      end
+    end
+  end
 end
+# rubocop:enable Metrics/BlockLength
