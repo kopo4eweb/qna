@@ -1,0 +1,5 @@
+<% if flash.key?(:alert) %>
+$('.files-danger-<%= @file.record_id %>').html('<%= j render partial: 'shared/inline_flash_message', locals: { type: 'alert', message: flash[:alert] } %>');
+<% elsif flash.key?(:notice) %>
+$('.file-<%= @file.id %>-<%= @file.record_id %>').replaceWith('<%= j render partial: 'shared/inline_flash_message', locals: { type: 'notice', message: flash[:notice] } %>');
+<% end %>
