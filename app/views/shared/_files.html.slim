@@ -1,0 +1,12 @@
+- if resource.files.attached?
+  div class="files-danger-#{resource.id}"
+  - resource.files.each do |file|
+    p class="file-#{file.id}-#{resource.id}"
+      = link_to file.filename.to_s, url_for(file), target: '_blank'
+      - if current_user&.author_of?(resource)
+        = link_to 'Delete file',
+                attachment_path(file),
+                method: :delete,
+                remote: true,
+                data: { confirm: 'Are you sure?' },
+                class: "btn btn-outline-danger btn-sm ms-3"

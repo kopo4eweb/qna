@@ -3,6 +3,8 @@
     h2= question.title
     .mb-3
       = question.body
+    = render 'shared/files', resource: question
+
   - if current_user&.author_of?(question)
     .card-footer
       .d-flex
