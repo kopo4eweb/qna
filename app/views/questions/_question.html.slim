@@ -16,14 +16,4 @@
           div class="question-errors-#{question.id}"
             = render 'shared/errors', resource: question
 
-          = form_with model: question, local: false do |f|
-            .mb-3
-              = f.label :title, class: "form-label"
-              = f.text_field :title, autofocus: true, class: "form-control"
-            .mb-3
-              = f.label :body, class: "form-label"
-              = f.text_area :body, class: "form-control"
-
-            .mt-2.mb-4
-              = f.submit 'Save', class: "btn btn-primary"
-              = link_to 'Cancel', '#', class: "cancel-question-link btn btn-secondary ms-4", data: { question_id: question.id }
+          = render partial: 'form', locals: {question: question, local: false}
