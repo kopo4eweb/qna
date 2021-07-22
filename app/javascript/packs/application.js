@@ -11,6 +11,7 @@ require("jquery")
 require("bootstrap")
 require("./answers.js")
 require("./questions.js")
+require("./direct_uploads.js")
 
 Rails.start()
 Turbolinks.start()
