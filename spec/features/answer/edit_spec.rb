@@ -34,6 +34,21 @@ feature 'User can edit his answer', %q(
       end
     end
 
+    scenario 'can add files while edit his answer' do
+      sign_in(answer.user)
+      visit question_path(answer.question)
+
+      click_on 'Edit answer'
+
+      within '.answers' do
+        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Save'
+
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
     scenario 'create and edit this answer' do
       sign_in(user)
       visit question_path(question)
