@@ -7,7 +7,7 @@
     = f.text_area :body, class: "form-control"
   .mb-3
     = f.label :files, class: "form-label"
-    = f.file_field :files, class: "form-control", multiple: true
+    = f.file_field :files, class: "form-control", multiple: true, direct_upload: true
 
   .mt-2.mb-4
     = f.submit "#{question.persisted? ? 'Save' : 'Ask'}", class: "btn btn-primary"
