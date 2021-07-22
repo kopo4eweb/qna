@@ -27,6 +27,15 @@ feature 'User can create answer of question', %q(
       end
     end
 
+    scenario 'gives on answer on a question with attached files' do
+      fill_in 'Body', with: 'New answer for question'
+      attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'Give an answer'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
+
     scenario 'gives on answer on a question with errors' do
       expect(page).to have_content 'New answer'
       click_on 'Give an answer'

@@ -1,0 +1,9 @@
+.card.shadow
+  .card-body.p-9
+    h2.text-center.mb-6
+      | New answer
+
+    .answers_errors
+      = render 'shared/errors', resource: @answer
+
+    = render partial: 'answers/form', locals: { model: [@question, @answer], answer: @answer }

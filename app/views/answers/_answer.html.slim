@@ -13,7 +13,9 @@
                 method: :patch,
                 remote: true
     .card-body
-      = answer.body
+      .mb-3
+        = answer.body
+      = render 'shared/files', resource: answer
 
     - if current_user&.author_of?(answer)
       .card-footer
@@ -32,10 +34,4 @@
           div class="answer-errors-#{answer.id}"
             = render 'shared/errors', resource: answer
 
-          = form_with model: answer, local: false do |f|
-            .mb-3
-              = f.label :body, class: "form-label"
-              = f.text_area :body, class: "form-control"
-            .mt-2.mb-4
-              = f.submit 'Save', class: "btn btn-primary"
-              = link_to 'Cancel', '#', class: "cancel-answer-link btn btn-secondary ms-4", data: { answer_id: answer.id }
+          = render partial: 'answers/form', locals: { model: answer, answer: answer }

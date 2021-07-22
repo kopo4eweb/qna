@@ -1,14 +1,13 @@
-.card.shadow
-  .card-body.p-9
-    h2.text-center.mb-6
-      | New answer
-
-    .answers_errors
-      = render 'shared/errors', resource: @answer
-
-    = form_with model: [@question, @answer], local: false, class: "new-answer " do |f|
-      .mb-3
-        = f.label :body, class: "form-label"
-        = f.text_area :body, class: "form-control"
-      .mt-2.mb-4
-        = f.submit 'Give an answer', class: "btn btn-primary"
+= form_with model: model, local: false, class: "#{answer.persisted? ? '' : 'new-answer'}" do |f|
+  .mb-3
+    = f.label :body, class: "form-label"
+    = f.text_area :body, class: "form-control"
+  .mb-3
+    = f.label :files, class: "form-label"
+    = f.file_field :files, class: "form-control", multiple: true
+  .mt-2.mb-4
+    - if answer.persisted?
+      = f.submit 'Save', class: "btn btn-primary"
+      = link_to 'Cancel', '#', class: "cancel-answer-link btn btn-secondary ms-4", data: { answer_id: answer.id }
+    - else
+      = f.submit 'Give an answer', class: "btn btn-primary"
