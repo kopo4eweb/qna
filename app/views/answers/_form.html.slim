@@ -5,6 +5,9 @@
   .mb-3
     = f.label :files, class: "form-label"
     = f.file_field :files, class: "form-control", multiple: true, direct_upload: true
+
+  = render partial: 'shared/links_nested_form', locals: { f: f }
+
   .mt-2.mb-4
     - if answer.persisted?
       = f.submit 'Save', class: "btn btn-primary"
