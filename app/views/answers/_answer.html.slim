@@ -16,6 +16,7 @@
       .mb-3
         = answer.body
       = render 'shared/files', resource: answer
+      = render 'shared/links', resource: answer
 
     - if current_user&.author_of?(answer)
       .card-footer
