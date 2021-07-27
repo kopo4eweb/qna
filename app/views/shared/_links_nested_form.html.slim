@@ -1,8 +1,7 @@
 p.mb-2 Links:
-= f.fields_for :links do |l|
-  .mb-3
-    = l.label :name, 'Link name', class: "form-label"
-    = l.text_field :name, class: "form-control"
-  .mb-3
-    = l.label :url, class: "form-label"
-    = l.text_field :url, class: "form-control"
+.mb-3
+  = f.fields_for :links do |link|
+    = render 'shared/link_fields', f: link
+
+  .mt-2.text-center
+    = link_to_add_association 'Add link', f, :links,  partial: 'shared/link_fields', class: "btn btn-outline-primary btn-sm"
