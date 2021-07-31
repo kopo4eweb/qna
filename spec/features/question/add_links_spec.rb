@@ -9,32 +9,45 @@ feature 'User can add links to question', %q(
 ) do
   given(:user) { create(:user) }
   given(:gist_url) { 'https://gist.github.com/kopo4eweb/ee186726f9a58f3f778888117d9f3701' }
+  given(:google_url) { 'https://google.com' }
   given(:bad_url) { 'bad_url.org' }
 
-  background do
-    sign_in(user)
-    visit new_question_path
+  describe 'User when asks question adds links with', js: true do
+    background do
+      sign_in(user)
+      visit new_question_path
 
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'text text text'
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+    end
 
-    fill_in 'Link name', with: 'My gist'
-  end
+    scenario 'simple url' do
+      fill_in 'Link name', with: 'My google'
+      fill_in 'Url', with: google_url
 
-  scenario 'User adds link when asks question' do
-    fill_in 'Url', with: gist_url
+      click_on 'Ask'
 
-    click_on 'Ask'
+      expect(page).to have_link 'My google', href: google_url
+    end
 
-    expect(page).to have_link 'My gist', href: gist_url
-  end
+    scenario 'gist url with loading content on a page' do
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
 
-  scenario 'User adds link when asks question with error' do
-    fill_in 'Url', with: bad_url
+      click_on 'Ask'
 
-    click_on 'Ask'
+      expect(page).to have_link 'My gist', href: gist_url
+      expect(page).to have_content 'test_guru_question.txt'
+    end
 
-    expect(page).to have_content 'Links url is not a valid URL'
-    expect(page).not_to have_link 'My gist', href: bad_url
+    scenario 'with url error' do
+      fill_in 'Link name', with: 'Bad url'
+      fill_in 'Url', with: bad_url
+
+      click_on 'Ask'
+
+      expect(page).to have_content 'Links url is not a valid URL'
+      expect(page).not_to have_link 'Bad url', href: bad_url
+    end
   end
 end

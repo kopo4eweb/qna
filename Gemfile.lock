@@ -140,6 +140,7 @@ GEM
     nokogiri (1.11.1)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
+    open-uri (0.1.0)
     orm_adapter (0.5.0)
     parallel (1.20.1)
     parser (3.0.0.0)
@@ -316,6 +317,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   launchy
   listen (~> 3.3)
+  open-uri
   pg (~> 1.1)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
