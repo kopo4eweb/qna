@@ -1,13 +1,24 @@
 - if resource.links.any?
   .links
     p Links:
-    ul
+    div class="links-danger-#{resource.id}"
+    ul.list-unstyled
       - resource.links.each do |link|
-        li
+        li.mb-3 class="link-#{link.id}-#{resource.id}"
           = link_to link.name, link.url, target: "_blank"
+          - if current_user&.author_of?(resource)
+            = link_to 'Delete link',
+                    link_path(link),
+                    method: :delete,
+                    remote: true,
+                    data: { confirm: 'Are you sure?' },
+                    class: "btn btn-outline-danger btn-sm ms-3"
           - if link.gist?
-            .gist-link class="link-#{link.id}"
-              javascript:
-                $.get("/load-gist?url=#{link.url}.js&id=#{link.id}", function (data) {
-                  $(".link-#{link.id}").html(data);
-                });
+            .mt-2
+              .text-end
+                = link_to "open/close", "#collapse-link-#{link.id}", class: "btn btn-outline-secondary btn-sm", data: { "bs-toggle": "collapse" },  role: "button", "aria-expanded": "true", "aria-controls": "collapse-link-#{link.id}"
+              .gist-link.mt-2.collapse.show class="link-#{link.id}" id="collapse-link-#{link.id}"
+                javascript:
+                  $.get("/load-gist?url=#{link.url}.js&id=#{link.id}", function (data) {
+                    $(".link-#{link.id}").html(data);
+                  });
