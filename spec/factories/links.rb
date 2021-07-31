@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :link do
-    sequence(:name) { |n| "Link#{n}" }
+    name { 'google' }
     url { 'http://google.com' }
     linkable factory: :question
   end

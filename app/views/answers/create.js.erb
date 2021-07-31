@@ -3,4 +3,15 @@ $('.answers_errors').html('<%= render 'shared/errors', resource: @answer %>');
 <% if @answer.persisted? %>
   $('.answers').append('<%= j render @answer %>');
   $('.new-answer #answer_body').val('');
+
+  const nestedFieldsAnswer = $('.new-answer .nested-fields');
+  if (nestedFieldsAnswer.length) {
+    nestedFieldsAnswer.each(function (index){
+      if (index === 0) {
+        $(this).find('input').val('');
+      } else {
+        $(this).remove();
+      }
+    });
+  }
 <% end %>
