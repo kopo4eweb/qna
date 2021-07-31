@@ -10,6 +10,7 @@ feature 'User can edit his answer', %q(
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given(:answer) { create(:answer) }
+  given(:google_url) { 'https://google.com' }
 
   scenario 'Unauthenticated can not edit answer' do
     visit question_path(question)
@@ -46,6 +47,45 @@ feature 'User can edit his answer', %q(
 
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
+    scenario 'can add link while edit his answer' do
+      sign_in(answer.user)
+      visit question_path(answer.question)
+
+      click_on 'Edit answer'
+
+      within '.answers' do
+        click_on 'Add link'
+        fill_in 'Link name', with: 'My google'
+        fill_in 'Url', with: google_url
+        click_on 'Save'
+
+        expect(page).to have_link 'My google', href: google_url
+      end
+    end
+
+    scenario 'can remove link while edit his question' do
+      sign_in(answer.user)
+      visit question_path(answer.question)
+
+      click_on 'Edit answer'
+
+      within '.answers' do
+        click_on 'Add link'
+        fill_in 'Link name', with: 'My google'
+        fill_in 'Url', with: google_url
+        click_on 'Save'
+
+        expect(page).to have_link 'My google', href: google_url
+
+        click_on 'Edit answer'
+
+        click_on 'Remove link'
+        click_on 'Save'
+
+        expect(page).not_to have_link 'My google'
       end
     end
 
