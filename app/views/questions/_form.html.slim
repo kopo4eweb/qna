@@ -9,9 +9,25 @@
     = f.label :files, class: "form-label"
     = f.file_field :files, class: "form-control", multiple: true, direct_upload: true
 
+  - unless question.reward.present?
+    - question.build_reward
+
+  .card
+    .card-header Reward:
+    .card-body
+      = f.fields_for :reward do |r|
+        .mb-3
+          = r.label :title, 'Reward title', class: "form-label"
+          = r.text_field :title, class: "form-control"
+        .mb-3
+          = r.label :image, class: "form-label"
+          = r.file_field :image, class: "form-control", direct_upload: true
+
   = render partial: 'shared/links_nested_form', locals: { f: f }
 
   .mt-2.mb-4
     = f.submit "#{question.persisted? ? 'Save' : 'Ask'}", class: "btn btn-primary"
-    - unless local
+    - if local
+      = link_to 'Cancel', questions_path, class: "btn btn-secondary ms-4"
+    - else
       = link_to 'Cancel', '#', class: "cancel-question-link btn btn-secondary ms-4", data: { question_id: question.id }
