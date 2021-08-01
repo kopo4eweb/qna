@@ -15,6 +15,7 @@ RSpec.describe Answer, type: :model do
   describe 'switch_best' do
     let!(:user) { create(:user) }
     let!(:question) { create(:question, user: user) }
+    let!(:reward) { create(:reward, question: question) }
     let!(:answer) { create(:answer, question: question, user: user) }
     let!(:best_answer) { create(:answer, question: question, user: user, best: true) }
 
@@ -22,6 +23,7 @@ RSpec.describe Answer, type: :model do
       answer.switch_best
 
       expect(answer).to be_best
+      expect(reward.user).not_to be_nil
     end
 
     it 'check best attribute for old best answer' do
