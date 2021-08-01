@@ -1,0 +1,16 @@
+h2 rewards
+
+table.table
+  thead
+    tr
+      th #
+      th question
+      th name
+      th image
+  tbody
+    - @rewards.each_with_index do |reward, index|
+      tr
+        td= index + 1
+        td= reward.question.title
+        td= reward.title
+        td= image_tag url_for(reward.image), alt: reward.title
