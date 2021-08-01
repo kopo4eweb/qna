@@ -18,6 +18,7 @@ class Answer < ApplicationRecord
       question.answers.update_all(best: false)
       # rubocop:enable Rails/SkipsModelValidations
       update!(best: true)
+      question.reward&.update!(user: user)
     end
   end
 end
