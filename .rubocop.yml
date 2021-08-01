@@ -14,6 +14,7 @@ AllCops:
     - vendor/**/*
     - db/**/*
     - spec/factories/**/*
+    - spec/files/**/*
 
   Include:
     - app/**/*

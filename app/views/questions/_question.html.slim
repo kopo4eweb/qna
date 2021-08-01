@@ -1,9 +1,14 @@
 .card.mb-3 class="question-#{question.id}"
-  .card-body
+  .card-header
     h2= question.title
+  .card-body
     .mb-3
       = question.body
     = render 'shared/files', resource: question
+    - if question.reward.present?
+      hr
+      p= question.reward.title
+      = image_tag url_for(question.reward.image), alt: question.reward.title
 
   - if current_user&.author_of?(question)
     .card-footer
