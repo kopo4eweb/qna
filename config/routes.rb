@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   get '/load-gist', to: 'gists#load'
 
+  resource :reward, only: :show
   resources :attachments, only: :destroy
   resources :links, only: :destroy
 
