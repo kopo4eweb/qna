@@ -17,6 +17,8 @@
         = answer.body
       = render 'shared/files', resource: answer
       = render 'shared/links', resource: answer
+      hr
+      = render 'shared/vote', resource: answer
 
     - if current_user&.author_of?(answer)
       .card-footer

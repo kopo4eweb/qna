@@ -1,0 +1,25 @@
+.vote id="vote-#{resource.class.name.downcase}-#{resource.id}"
+  p.p-1.bg-secondary.text-white
+    | Voting: &nbsp;
+    b.vote-result
+      = resource.total_votes
+  - if user_signed_in? && !current_user&.author_of?(resource)
+    p.vote-errors.text-danger style="display:none;"
+    = link_to 'up', polymorphic_path(resource, action: :vote_up),
+            method: :post,
+            remote: true,
+            data: { type: :json },
+            class: "btn btn-outline-success btn-sm me-2 vote-up",
+            style: "#{current_user.voted?(resource) ? 'display:none;' : ''}"
+    = link_to 'down', polymorphic_path(resource, action: :vote_down),
+            method: :post,
+            remote: true,
+            data: { type: :json },
+            class: "btn btn-outline-danger btn-sm me-2 vote-down",
+            style: "#{current_user.voted?(resource) ? 'display:none;' : ''}"
+    = link_to 'cancel vote', polymorphic_path(resource, action: :cancel_vote),
+            method: :delete,
+            remote: true,
+            data: { type: :json },
+            class: "btn btn-outline-secondary btn-sm cancel-vote",
+            style: "#{current_user.voted?(resource) ? '' : 'display:none;'}"

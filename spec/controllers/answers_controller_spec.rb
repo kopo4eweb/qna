@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require Rails.root.join('spec/controllers/concerns/voted_spec.rb')
 
 # rubocop:disable Metrics/BlockLength
 RSpec.describe AnswersController, type: :controller do
@@ -167,5 +168,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  it_behaves_like 'voted'
 end
 # rubocop:enable Metrics/BlockLength
