@@ -1,18 +1,21 @@
-.mb-3
-  = link_to "back", questions_path, class: "btn btn-secondary"
-  - if current_user&.author_of?(@question)
-    .float-end= link_to 'Delete question',
-            @question,
-            method: :delete,
-            data: { confirm: 'Are you sure?' },
-            class: "btn btn-danger"
+div class = "question-#{@question.id}"
+  .mb-3
+    = link_to "back", questions_path, class: "btn btn-secondary"
+    - if current_user&.author_of?(@question)
+      .float-end= link_to 'Delete question',
+              @question,
+              method: :delete,
+              data: { confirm: 'Are you sure?' },
+              class: "btn btn-danger"
 
 
-h1= @question.title
-p= @question.body
-= render 'shared/files', resource: @question
-= render 'shared/links', resource: @question
-hr
+  h1= @question.title
+  p= @question.body
+  = render 'shared/files', resource: @question
+  = render 'shared/links', resource: @question
+  hr
+  = render 'shared/vote', resource: @question
+  hr
 
 .mt-5
   h3 Answers

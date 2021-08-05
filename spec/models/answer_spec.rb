@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require Rails.root.join('spec/models/concerns/votable_spec.rb')
 
 RSpec.describe Answer, type: :model do
   it { should belong_to(:question) }
@@ -37,4 +38,6 @@ RSpec.describe Answer, type: :model do
   it 'have many attached files' do
     expect(described_class.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
+
+  it_behaves_like 'votable'
 end

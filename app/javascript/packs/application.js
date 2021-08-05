@@ -13,6 +13,7 @@ require("bootstrap")
 require("./answers.js")
 require("./questions.js")
 require("./direct_uploads.js")
+require("./vote.js")
 
 Rails.start()
 Turbolinks.start()
