@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  include Voted
-
   before_action :authenticate_user!
   before_action :find_question, only: :create
   before_action :find_answer, only: %I[update select_best destroy]
   before_action :answer_author?, only: %I[update destroy]
   before_action :question_author?, only: :select_best
+
+  include Voted
 
   def create
     @answer = @question.answers.create(answer_params.merge(user: current_user))
