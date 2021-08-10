@@ -26,6 +26,7 @@ class QuestionsController < ApplicationController
   def create
     @question = current_user.questions.new(question_params)
     if @question.save
+      send_question('add')
       redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
@@ -34,10 +35,12 @@ class QuestionsController < ApplicationController
 
   def update
     @question.update(question_params)
+    send_question('update')
   end
 
   def destroy
     @question.destroy
+    send_question('destroy')
     redirect_to questions_path, notice: "Question #{@question.title} delete."
   end
 
@@ -55,5 +58,26 @@ class QuestionsController < ApplicationController
     params.require(:question).permit(:title, :body, files: [],
                                                     links_attributes: %i[id name url _destroy],
                                                     reward_attributes: %i[id title image _destroy])
+  end
+
+  def send_question(event)
+    return if @question.errors.any?
+
+    result = {
+      id: @question.id,
+      event: event
+    }
+
+    if %w[add update].include?(event)
+      result[:body] = ApplicationController.render(
+        partial: 'questions/question',
+        locals: { question: @question, current_user: nil }
+      )
+    end
+
+    ActionCable.server.broadcast(
+      'questions',
+      result
+    )
   end
 end
