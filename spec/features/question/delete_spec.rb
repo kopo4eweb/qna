@@ -39,6 +39,49 @@ feature 'User can delete own question', %q(
     end
   end
 
+  describe 'multiple sessions' do
+    scenario 'all users see delete question in real-time', js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit questions_path
+
+        click_on 'Ask question'
+
+        fill_in 'Title', with: 'Test question'
+        fill_in 'Body', with: 'text text text'
+        click_on 'Ask'
+
+        expect(page).to have_content 'Your question successfully created.'
+        expect(page).to have_content 'Test question'
+        expect(page).to have_content 'text text text'
+      end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+
+        expect(page).to have_content 'Test question'
+        expect(page).to have_content 'text text text'
+      end
+
+      Capybara.using_session('user') do
+        visit questions_path
+
+        click_on 'Detail'
+
+        accept_confirm do
+          click_on 'Delete question'
+        end
+
+        expect(page).to have_content 'Question Test question delete'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).not_to have_content 'Test question'
+        expect(page).not_to have_content 'text text text'
+      end
+    end
+  end
+
   scenario 'Unauthenticated user tries delete a question' do
     visit question_path(answer.question)
     expect(page).to have_content question.title

@@ -4,7 +4,7 @@
   .card-body
     .mb-3
       = question.body
-    = render 'shared/files', resource: question
+    = render 'shared/files', resource: question, current_user: current_user
     - if question.reward.present?
       hr
       p= question.reward.title

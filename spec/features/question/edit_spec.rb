@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 feature 'User can edit his question', %q(
   In order to correct mistakes
   As an author of question
@@ -132,4 +133,48 @@ feature 'User can edit his question', %q(
       expect(page).not_to have_link 'Edit question'
     end
   end
+
+  describe 'multiple sessions' do
+    scenario 'all users see update question in real-time', js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit questions_path
+
+        click_on 'Ask question'
+
+        fill_in 'Title', with: 'Test question'
+        fill_in 'Body', with: 'text text text'
+        click_on 'Ask'
+
+        expect(page).to have_content 'Your question successfully created.'
+        expect(page).to have_content 'Test question'
+        expect(page).to have_content 'text text text'
+      end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+
+        expect(page).to have_content 'Test question'
+        expect(page).to have_content 'text text text'
+      end
+
+      Capybara.using_session('user') do
+        visit questions_path
+        click_on 'Edit question'
+
+        fill_in 'Title', with: 'Test question upadted'
+        fill_in 'Body', with: 'text text text upadted'
+        click_on 'Save'
+
+        expect(page).to have_content 'Test question upadted'
+        expect(page).to have_content 'text text text upadted'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'Test question upadted'
+        expect(page).to have_content 'text text text upadted'
+      end
+    end
+  end
 end
+# rubocop:enable Metrics/BlockLength
