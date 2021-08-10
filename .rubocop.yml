@@ -32,7 +32,7 @@ RSpec/Capybara/FeatureMethods:
   Enabled: false
 
 RSpec/ExampleLength:
-  Max: 20
+  Max: 30
 
 RSpec/NestedGroups:
   Max: 5
