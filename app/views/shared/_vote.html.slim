@@ -3,7 +3,7 @@
     | Voting: &nbsp;
     b.vote-result
       = resource.total_votes
-  - if user_signed_in? && !current_user&.author_of?(resource)
+  - if current_user && !current_user&.author_of?(resource)
     p.vote-errors.text-danger style="display:none;"
     = link_to 'up', polymorphic_path(resource, action: :vote_up),
             method: :post,

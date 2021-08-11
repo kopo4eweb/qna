@@ -37,6 +37,41 @@ feature 'User can delete own answer', %q(
     end
   end
 
+  describe 'multiple sessions' do
+    scenario 'all users see new answer in real-time', js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+        fill_in 'Body', with: 'New answer for question'
+        click_on 'Give an answer'
+
+        within '.answers' do
+          expect(page).to have_content 'New answer for question'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+
+        within '.answers' do
+          expect(page).to have_content 'New answer for question'
+        end
+      end
+
+      Capybara.using_session('user') do
+        accept_confirm do
+          click_link 'Delete answer'
+        end
+
+        expect(page).to have_content 'Your answer removed.'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).not_to have_content 'New answer for question'
+      end
+    end
+  end
+
   scenario 'Unauthenticated user tries delete a answer' do
     visit question_path(answer.question)
 

@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 feature 'User can edit his answer', %q(
   In order to correct mistakes
   As an author of answer
@@ -150,4 +151,44 @@ feature 'User can edit his answer', %q(
       expect(page).not_to have_link 'Edit answer'
     end
   end
+
+  describe 'multiple sessions' do
+    scenario 'all users see update answer in real-time', js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+        fill_in 'Body', with: 'New answer for question'
+        click_on 'Give an answer'
+
+        within '.answers' do
+          expect(page).to have_content 'New answer for question'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+        within '.answers' do
+          expect(page).to have_content 'New answer for question'
+        end
+      end
+
+      Capybara.using_session('user') do
+        click_on 'Edit answer'
+
+        within '.answers' do
+          fill_in 'Body', with: 'edited answer'
+          click_on 'Save'
+
+          expect(page).to have_content 'edited answer'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within '.answers' do
+          expect(page).to have_content 'edited answer'
+        end
+      end
+    end
+  end
 end
+# rubocop:enable Metrics/BlockLength
