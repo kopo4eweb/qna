@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
     @answers = @question.answers.with_attached_files.order(best: :desc, created_at: :desc)
     @answer = @question.answers.new
     @answer.links.build
+    gon.question_id = @question.id
   end
 
   def new

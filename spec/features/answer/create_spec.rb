@@ -44,6 +44,34 @@ feature 'User can create answer of question', %q(
     end
   end
 
+  describe 'multiple sessions' do
+    scenario 'all users see new answer in real-time', js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Body', with: 'New answer for question'
+        click_on 'Give an answer'
+
+        within '.answers' do
+          expect(page).to have_content 'New answer for question'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within '.answers' do
+          expect(page).to have_content 'New answer for question'
+        end
+      end
+    end
+  end
+
   scenario 'Unauthenticated user tries gives on answer on a question' do
     visit question_path(question)
     expect(page).not_to have_content 'New answer'

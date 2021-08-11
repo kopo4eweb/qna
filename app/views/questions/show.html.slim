@@ -22,7 +22,7 @@ div class = "question-#{@question.id}"
   - if @answers.count.zero?
     p
       | No the answer, be the first!
-  .answers
+  .answers class = "question-#{@question.id}-answers"
     = render @answers
 
 - if user_signed_in?

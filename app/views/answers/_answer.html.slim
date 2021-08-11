@@ -15,10 +15,10 @@
     .card-body
       .mb-3
         = answer.body
-      = render 'shared/files', resource: answer
-      = render 'shared/links', resource: answer
+      = render 'shared/files', resource: answer, current_user: current_user
+      = render 'shared/links', resource: answer, current_user: current_user
       hr
-      = render 'shared/vote', resource: answer
+      = render 'shared/vote', resource: answer, current_user: current_user
 
     - if current_user&.author_of?(answer)
       .card-footer
