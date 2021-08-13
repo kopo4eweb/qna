@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 require Rails.root.join('spec/models/concerns/votable_spec.rb')
+require Rails.root.join('spec/models/concerns/commentable_spec.rb')
 
 RSpec.describe Answer, type: :model do
   it { should belong_to(:question) }
@@ -40,4 +41,6 @@ RSpec.describe Answer, type: :model do
   end
 
   it_behaves_like 'votable'
+
+  it_behaves_like 'commentable'
 end

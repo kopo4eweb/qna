@@ -1,0 +1,8 @@
+.card class="comment-form-#{resource.class.to_s.downcase}-#{resource.id}" style="display: none;"
+  .card-body
+    = form_with model: resource.comments.new, local: false,  url: polymorphic_path(resource, action: :add_comment)  do |f|
+      .mb-3
+        = f.label :body, "Text comment", class: "form-label"
+        = f.text_field :body, class: "form-control"
+      .mt-2.mb-4
+        = f.submit 'Public comment', class: "btn btn-primary btn-sm"

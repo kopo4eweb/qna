@@ -6,6 +6,7 @@ class QuestionsController < ApplicationController
   before_action :question_author?, only: %i[update destroy]
 
   include Voted
+  include Commented
 
   def index
     @questions = Question.all

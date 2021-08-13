@@ -1,0 +1,6 @@
+<% if @comment.persisted? %>
+  $('.comment-list-<%= @commentable.class.to_s.downcase %>-<%= @commentable.id %>').append('<%= j render @comment %>');
+  var comment_form  = $('.comment-form-<%= @commentable.class.to_s.downcase %>-<%= @commentable.id %>');
+  comment_form.find(' #comment_body').val('');
+  comment_form.hide();
+<% end %>

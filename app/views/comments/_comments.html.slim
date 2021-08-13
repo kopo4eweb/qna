@@ -1,0 +1,14 @@
+h5 Comments
+ul class="comment-list-#{resource.class.to_s.downcase}-#{resource.id}"
+  - resource&.comments.each do |comment|
+    = render comment, resource: resource
+
+.mt-2
+  - if current_user
+    .text-center
+      = link_to 'Add comment',
+              '#',
+              class: 'btn btn-dark btn-sm btn-add-comment',
+              data: { form: ".comment-form-#{resource.class.to_s.downcase}-#{resource.id}" }
+    .mt-3
+      = render 'comments/form', resource: resource
