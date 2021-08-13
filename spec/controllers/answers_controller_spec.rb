@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 require Rails.root.join('spec/controllers/concerns/voted_spec.rb')
+require Rails.root.join('spec/controllers/concerns/commented_spec.rb')
 
 # rubocop:disable Metrics/BlockLength
 RSpec.describe AnswersController, type: :controller do
@@ -170,5 +171,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   it_behaves_like 'voted'
+
+  it_behaves_like 'commented'
 end
 # rubocop:enable Metrics/BlockLength

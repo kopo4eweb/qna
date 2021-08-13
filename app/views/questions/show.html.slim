@@ -1,4 +1,4 @@
-div class = "question-#{@question.id}"
+.question-detail class = "question-#{@question.id}"
   .mb-3
     = link_to "back", questions_path, class: "btn btn-secondary"
     - if current_user&.author_of?(@question)
@@ -16,6 +16,8 @@ div class = "question-#{@question.id}"
   hr
   = render 'shared/vote', resource: @question
   hr
+  = render 'comments/comments', resource: @question
+
 
 .mt-5
   h3 Answers
