@@ -31,6 +31,9 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'slim-rails'
 gem 'devise'
+gem 'omniauth', '~> 2.0'
+gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-github', github: 'intridea/omniauth-github'
 
 gem "aws-sdk-s3", require: false
 
