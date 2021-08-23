@@ -3,6 +3,9 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
+  get '/user/email', to: 'users#email', as: 'email'
+  post '/user/set_email', to: 'users#set_email', as: 'set_email'
+
   get '/load-gist', to: 'gists#load'
 
   resource :reward, only: :show
