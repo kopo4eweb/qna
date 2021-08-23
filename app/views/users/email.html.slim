@@ -1,0 +1,12 @@
+.devise-wrap
+  .card.card--devise.shadow
+    .card-body.p-9
+      h2.text-center.mb-6
+        | Sign up
+
+      = form_for(@user, url: set_email_path) do |f|
+        .mb-3
+          = f.label :email, class: "form-label"
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+        .mt-2.mb-4
+          = f.submit "Send confirmation to email", class: "btn btn-primary"

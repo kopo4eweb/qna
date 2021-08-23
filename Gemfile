@@ -34,6 +34,7 @@ gem 'devise'
 gem 'omniauth', '~> 2.0'
 gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-github', github: 'intridea/omniauth-github'
+gem 'omniauth-vkontakte'
 
 gem "aws-sdk-s3", require: false
 
@@ -57,6 +58,7 @@ group :development, :test do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'letter_opener'
 end
 
 group :development do
@@ -79,6 +81,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'shoulda-matchers', '~> 4.0'
   gem 'webdrivers'
+  gem 'capybara-email'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

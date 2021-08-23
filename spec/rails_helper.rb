@@ -11,6 +11,7 @@ require 'rspec/rails'
 
 require 'validate_url/rspec_matcher'
 require 'active_storage_validations/matchers'
+require 'capybara/email/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -35,13 +36,14 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
   config.include ActiveStorageValidations::Matchers
-  # config.include OmniauthHelpers
+  config.include OmniauthHelpers
 
   Capybara.javascript_driver = :selenium_chrome_headless
 
