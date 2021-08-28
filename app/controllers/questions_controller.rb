@@ -3,7 +3,8 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show update destroy]
-  before_action :question_author?, only: %i[update destroy]
+
+  authorize_resource
 
   include Voted
   include Commented
@@ -47,10 +48,6 @@ class QuestionsController < ApplicationController
   end
 
   private
-
-  def question_author?
-    redirect_to @question, alert: 'Not enough permissions' unless current_user&.author_of?(@question)
-  end
 
   def load_question
     @question = Question.with_attached_files.find(params[:id])

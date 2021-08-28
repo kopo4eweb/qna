@@ -1,5 +1,1 @@
-<% if flash.key?(:alert) %>
-$('.links-danger-<%= @link.linkable_id %>').html('<%= j render partial: 'shared/inline_flash_message', locals: { type: 'alert', message: flash[:alert] } %>');
-<% elsif flash.key?(:notice) %>
 $('.link-<%= @link.id %>-<%= @link.linkable_id %>').replaceWith('<%= j render partial: 'shared/inline_flash_message', locals: { type: 'notice', message: flash[:notice] } %>');
-<% end %>

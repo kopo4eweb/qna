@@ -4,7 +4,6 @@
   .card-body
     .mb-3
       = question.body
-    = render 'shared/files', resource: question, current_user: current_user
     - if question.reward.present?
       hr
       p= question.reward.title
@@ -15,11 +14,11 @@
     .d-flex
       .text-start.me-auto
         = link_to "Detail", question, class: "btn btn-info btn-sm"
-      - if current_user&.author_of?(question)
+      - if current_user && can?(:update, question)
         .text-end
           = link_to 'Edit question', '#', class: "edit-question-link btn btn-primary btn-sm", data: { question_id: question.id }
 
-    - if current_user&.author_of?(question)
+    - if current_user && can?(:update, question)
       .card.shadow.mt-3 style="display: none;" class="edit-question-#{question.id}"
         .card-body.p-9
           div class="question-errors-#{question.id}"
