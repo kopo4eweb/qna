@@ -5,7 +5,7 @@
       - if answer.best?
         span.badge.rounded-pill.bg-warning.text-dark.best_answer_of_question Best answer!
 
-      - if current_user&.author_of?(answer.question)
+      - if current_user && can?(:select_best, answer)
         = link_to 'Make it best',
                 select_best_answer_path(answer),
                 class: "btn btn-success btn-sm answer-make-best",
@@ -22,7 +22,7 @@
       hr
       = render 'comments/comments', resource: answer, current_user: current_user
 
-    - if current_user&.author_of?(answer)
+    - if current_user && can?(:destroy, answer)
       .card-footer
         div class="answer-danger-#{answer.id}"
         .text-end

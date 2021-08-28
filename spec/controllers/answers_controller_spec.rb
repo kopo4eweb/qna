@@ -119,9 +119,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { id: answer }, format: :js }.not_to change(Answer, :count)
       end
 
-      it 'redirects to questions list' do
+      it 'responds with forbidden' do
         delete :destroy, params: { id: answer }, format: :js
-        expect(response).to redirect_to question_path(answer.question)
+        expect(response).to have_http_status(:forbidden)
       end
     end
 

@@ -52,9 +52,9 @@ RSpec.describe LinksController, type: :controller do
           end.not_to change(question.links, :count)
         end
 
-        it 'render template destroy' do
+        it 'responds with forbidden' do
           delete :destroy, params: { id: question_link.id }, format: :js
-          expect(response).to render_template :destroy
+          expect(response).to have_http_status(:forbidden)
         end
       end
 
@@ -65,9 +65,9 @@ RSpec.describe LinksController, type: :controller do
           end.not_to change(answer.links, :count)
         end
 
-        it 'render template destroy' do
+        it 'responds with forbidden' do
           delete :destroy, params: { id: answer_link.id }, format: :js
-          expect(response).to render_template :destroy
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end
@@ -80,9 +80,9 @@ RSpec.describe LinksController, type: :controller do
           end.not_to change(question.links, :count)
         end
 
-        it 'render template destroy' do
+        it 'responds with forbidden' do
           delete :destroy, params: { id: question_link.id }, format: :js
-          expect(response).to render_template :destroy
+          expect(response).to have_http_status(:forbidden)
         end
       end
 
@@ -93,9 +93,9 @@ RSpec.describe LinksController, type: :controller do
           end.not_to change(answer.links, :count)
         end
 
-        it 'render template destroy' do
+        it 'responds with forbidden' do
           delete :destroy, params: { id: answer_link.id }, format: :js
-          expect(response).to render_template :destroy
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end

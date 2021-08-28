@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class GistsController < ApplicationController
+  skip_authorization_check
+
   def load
     gist_url = params[:url]
     link_id  = params[:id].to_i

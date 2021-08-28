@@ -3,6 +3,8 @@
 class RewardsController < ApplicationController
   before_action :authenticate_user!
 
+  authorize_resource
+
   def show
     @rewards = current_user&.rewards
   end

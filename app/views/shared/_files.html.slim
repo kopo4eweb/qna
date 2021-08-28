@@ -1,9 +1,11 @@
 - if resource.files.attached?
+  p Attached files:
   div class="files-danger-#{resource.id}"
   - resource.files.each do |file|
     p class="file-#{file.id}-#{resource.id}"
       = link_to file.filename.to_s, url_for(file), target: '_blank'
-      - if current_user&.author_of?(resource)
+
+      - if current_user && can?(:destroy, file)
         = link_to 'Delete file',
                 attachment_path(file),
                 method: :delete,

@@ -1,7 +1,7 @@
 .question-detail class = "question-#{@question.id}"
   .mb-3
     = link_to "back", questions_path, class: "btn btn-secondary"
-    - if current_user&.author_of?(@question)
+    - if can?(:destroy, @question)
       .float-end= link_to 'Delete question',
               @question,
               method: :delete,
@@ -27,6 +27,6 @@
   .answers class = "question-#{@question.id}-answers"
     = render @answers
 
-- if user_signed_in?
+- if can?(:create, @answer)
   .mt-5
     =render 'answers/new-answer'

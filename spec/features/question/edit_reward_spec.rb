@@ -6,24 +6,19 @@ feature 'User can replace reward to question', %q(
   As an question's author
   I'd like to be able to replace reward for best answer
 ) do
-  given(:user)      { create(:user) }
-  given(:question)  { create(:question) }
+  given!(:question) { create(:question) }
 
   describe 'Authenticated user', js: true do
     background do
       sign_in(question.user)
       visit questions_path
 
-      click_on 'Ask question'
-
-      fill_in 'Title', with: 'Test question'
-      fill_in 'Body', with: 'text text text'
+      click_on 'Edit question'
 
       fill_in 'Reward title', with: 'Add reward'
       attach_file 'Image', "#{Rails.root}/spec/files/reward.png"
-      click_on 'Ask'
+      click_on 'Save'
 
-      visit questions_path
       click_on 'Edit question'
 
       fill_in 'Reward title', with: 'Replace reward'
