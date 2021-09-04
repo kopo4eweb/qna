@@ -1,16 +1,8 @@
 # frozen_string_literal: true
 
-class Api::V1::ProfilesController < ApplicationController
-  before_action :doorkeeper_authorize!
-
+class Api::V1::ProfilesController < Api::V1::BaseController
   def me
     authorize! :read, current_resource_owner
     render json: current_resource_owner
-  end
-
-  private
-
-  def current_resource_owner
-    @current_resource_owner ||= User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
   end
 end
