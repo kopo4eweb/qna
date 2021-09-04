@@ -5,6 +5,14 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [] do
+        get :me, on: :collection
+      end
+    end
+  end
+
   get '/user/email', to: 'users#email', as: 'email'
   post '/user/set_email', to: 'users#set_email', as: 'set_email'
 
