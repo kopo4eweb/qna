@@ -26,7 +26,7 @@ class Ability
   def user_abilities(user)
     guest_abilities
 
-    can :read, User, user_id: user.id
+    can :me, User
 
     can :create, [Question, Answer]
     can :update, [Question, Answer], user_id: user.id
