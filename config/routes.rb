@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :profiles, only: [] do
         get :me, on: :collection
+        get :users_without_me, on: :collection
       end
       resources :questions, only: [:index]
     end
