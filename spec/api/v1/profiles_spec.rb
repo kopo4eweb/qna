@@ -19,9 +19,7 @@ describe 'Profiles API', type: :request do
 
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it 'returns 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'Checkable status 200'
 
       it_behaves_like 'Checkable public fields' do
         let(:public_fields) { %w[id email admin created_at updated_at] }
@@ -51,12 +49,11 @@ describe 'Profiles API', type: :request do
 
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it 'return 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'Checkable status 200'
 
-      it 'returns list of users' do
-        expect(json['users'].size).to eq users.length
+      it_behaves_like 'Checkable size collection' do
+        let(:list_obj_json) { json['users'] }
+        let(:list_obj) { users }
       end
 
       it 'not contains user authorize object' do

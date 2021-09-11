@@ -3,10 +3,12 @@
 require 'rails_helper'
 
 # rubocop:disable Metrics/BlockLength
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'Questions API', type: :request do
-  let(:headers) { { 'ACCEPT' => 'application/json' } }
-  let(:user) { create(:user) }
-  let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+  let!(:headers) { { 'ACCEPT' => 'application/json' } }
+  let!(:user) { create(:user) }
+  let!(:access_token) { create(:access_token, resource_owner_id: user.id) }
+  let(:user_id) { access_token.resource_owner_id }
 
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
@@ -15,7 +17,6 @@ describe 'Questions API', type: :request do
       let(:method_name) { :get }
     end
 
-    # rubocop:disable RSpec/MultipleMemoizedHelpers
     context 'when authorized' do
       let!(:questions) { create_list(:question, 2) }
       let(:question) { questions.first }
@@ -23,12 +24,11 @@ describe 'Questions API', type: :request do
 
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it 'returns 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'Checkable status 200'
 
-      it 'returns list of questions' do
-        expect(json['questions'].size).to eq questions.length
+      it_behaves_like 'Checkable size collection' do
+        let(:list_obj_json) { json['questions'] }
+        let(:list_obj) { questions }
       end
 
       it_behaves_like 'Checkable public fields' do
@@ -41,7 +41,6 @@ describe 'Questions API', type: :request do
         expect(question_json['short_title']).to eq question.title.truncate(7)
       end
     end
-    # rubocop:enable RSpec/MultipleMemoizedHelpers
   end
 
   describe 'GET /api/v1/questions/:id' do
@@ -52,35 +51,25 @@ describe 'Questions API', type: :request do
       let(:method_name) { :get }
     end
 
-    # rubocop:disable RSpec/MultipleMemoizedHelpers
     context 'when authorized' do
       let(:question_json) { json['question'] }
       let(:content_types) { %w[answers comments files links] }
+      let(:single_json_object) { question_json }
+      let(:single_object) { question }
+      let(:user_id) { question.user.id }
 
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it 'returns 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'Checkable status 200'
 
-      it 'contains user object' do
-        expect(question_json['user']['id']).to eq question.user.id
-      end
+      it_behaves_like 'Checkable contains user object'
 
       it_behaves_like 'Checkable public fields' do
         let(:public_fields) { %w[id title body created_at updated_at] }
-        let(:single_json_object) { question_json }
-        let(:single_object) { question }
       end
 
-      it 'contains list of all content_type' do
-        content_types.each do |type|
-          expect(question_json[type].size).to eq question.send(type).count
-          expect(question_json[type].first['id']).to eq question.send(type).first.id
-        end
-      end
+      it_behaves_like 'Checkable content_type of collection'
     end
-    # rubocop:enable RSpec/MultipleMemoizedHelpers
   end
 
   describe 'POST /api/v1/questions' do
@@ -92,6 +81,8 @@ describe 'Questions API', type: :request do
 
     context 'when authorized' do
       context 'with valid attributes' do
+        let(:single_json_object) { json['question'] }
+
         before do
           post api_path,
                params: { question: { title: 'Test question', body: 'text text text' },
@@ -106,18 +97,14 @@ describe 'Questions API', type: :request do
           end.to change(Question, :count).by(1)
         end
 
-        it 'returns 200 status' do
-          expect(response).to be_successful
-        end
+        it_behaves_like 'Checkable status 200'
 
         it 'returns new question' do
-          expect(json['question']['title']).to eq 'Test question'
-          expect(json['question']['body']).to eq 'text text text'
+          expect(single_json_object['title']).to eq 'Test question'
+          expect(single_json_object['body']).to eq 'text text text'
         end
 
-        it 'contains user object' do
-          expect(json['question']['user']['id']).to eq access_token.resource_owner_id
-        end
+        it_behaves_like 'Checkable contains user object'
       end
 
       context 'with invalid attributes' do
@@ -133,13 +120,9 @@ describe 'Questions API', type: :request do
           end.not_to change(Question, :count)
         end
 
-        it 'returns 422 status' do
-          expect(response.status).to eq 422
-        end
+        it_behaves_like 'Checkable status 422'
 
-        it 'returns errors' do
-          expect(json['errors']).not_to be_nil
-        end
+        it_behaves_like 'Checkable returns error'
       end
     end
   end
@@ -153,6 +136,8 @@ describe 'Questions API', type: :request do
     end
 
     context 'when authorized' do
+      let(:single_json_object) { json['question'] }
+
       context 'with valid attributes' do
         before do
           patch api_path,
@@ -161,21 +146,16 @@ describe 'Questions API', type: :request do
                 headers: headers
         end
 
-        it 'returns 200 status' do
-          expect(response).to be_successful
-        end
+        it_behaves_like 'Checkable status 200'
 
         it 'returns update question' do
-          expect(json['question']['title']).to eq 'Edit title'
-          expect(json['question']['body']).to eq 'Edit body text'
+          expect(single_json_object['title']).to eq 'Edit title'
+          expect(single_json_object['body']).to eq 'Edit body text'
         end
 
-        it 'contains user object' do
-          expect(json['question']['user']['id']).to eq access_token.resource_owner_id
-        end
+        it_behaves_like 'Checkable contains user object'
       end
 
-      # rubocop:disable RSpec/MultipleMemoizedHelpers
       context 'with invalid attributes' do
         let(:old_title) { question.title }
         let(:old_body) { question.body }
@@ -190,13 +170,9 @@ describe 'Questions API', type: :request do
           expect(question.body).to eq old_body
         end
 
-        it 'returns 422 status' do
-          expect(response.status).to eq 422
-        end
+        it_behaves_like 'Checkable status 422'
 
-        it 'returns errors' do
-          expect(json['errors']).not_to be_nil
-        end
+        it_behaves_like 'Checkable returns error'
       end
 
       context 'when authorized not author' do
@@ -216,7 +192,6 @@ describe 'Questions API', type: :request do
           expect(other_question.body).to eq other_old_body
         end
       end
-      # rubocop:enable RSpec/MultipleMemoizedHelpers
     end
   end
 
@@ -228,7 +203,6 @@ describe 'Questions API', type: :request do
       let(:method_name) { :delete }
     end
 
-    # rubocop:disable RSpec/MultipleMemoizedHelpers
     context 'when authorized' do
       it 'deletes the question' do
         expect do
@@ -260,7 +234,7 @@ describe 'Questions API', type: :request do
         end
       end
     end
-    # rubocop:enable RSpec/MultipleMemoizedHelpers
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers
 # rubocop:enable Metrics/BlockLength
