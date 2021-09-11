@@ -11,7 +11,7 @@ Rails.application.routes.draw do
         get :me, on: :collection
         get :users_without_me, on: :collection
       end
-      resources :questions, only: [:index]
+      resources :questions
     end
   end
 
