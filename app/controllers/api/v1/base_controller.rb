@@ -3,8 +3,14 @@
 class Api::V1::BaseController < ApplicationController
   before_action :doorkeeper_authorize!
 
+  protect_from_forgery with: :null_session
+
   rescue_from CanCan::AccessDenied do
     head :forbidden
+  end
+
+  rescue_from Exception do |ex|
+    render json: { errors: ex.message }, status: :internal_server_error
   end
 
   private

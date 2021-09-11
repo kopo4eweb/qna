@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class QuestionSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :created_at, :updated_at, :short_title
-  has_many :answers
-  belongs_to :user
+  attributes :id, :title, :body, :created_at, :updated_at
 
-  def short_title
-    object.title.truncate(7)
-  end
+  belongs_to :user
+  has_many :answers
+  has_many :comments
+  has_many :links
+  has_many :files, each_serializer: AttachmentSerializer
 end
