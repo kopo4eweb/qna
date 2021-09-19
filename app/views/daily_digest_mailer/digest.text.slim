@@ -1,0 +1,8 @@
+' Hello, #{@user.email}!
+' Here are the latest questions from the last 24 hours.
+= "\r\n" * 2
+' List question:
+- @questions.each do |question|
+  = link_to "#{question.title}", question_url(question)
+  = "\r\n"
+  ' Author: #{question.user.email}

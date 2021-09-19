@@ -15,5 +15,7 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :links, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :reward, reject_if: :all_blank, allow_destroy: true
 
+  scope :created_in_a_day, -> { where('created_at >= ?', 1.day.ago) }
+
   validates :title, :body, presence: true
 end
