@@ -1,0 +1,15 @@
+var btn = $('.btn-subscribe'),
+  label_subscribe = btn.data('label-subscribe'),
+  label_unsubscribe = btn.data('label-unsubscribe');
+
+$('#flash').html('<%= j render 'shared/flash_messages' %>');
+
+if (btn.hasClass('btn-outline-info')) {
+  btn.removeClass('btn-outline-info');
+  btn.addClass('btn-info');
+  btn.text(label_unsubscribe);
+} else {
+  btn.removeClass('btn-info');
+  btn.addClass('btn-outline-info');
+  btn.text(label_subscribe);
+}

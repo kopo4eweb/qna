@@ -22,3 +22,7 @@
 every 1.days do
   runner "DailyDigestJob.perform_now"
 end
+
+every 20.minute do
+  runner 'NotificationJob.perform_now'
+end

@@ -9,6 +9,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
   it { should have_many(:authorizations).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
@@ -43,6 +44,21 @@ RSpec.describe User, type: :model do
 
     it 'user has not been vote' do
       expect(user).not_to be_voted(new_question)
+    end
+  end
+
+  describe 'Check subscribe' do
+    let!(:user) { create(:user) }
+    let!(:question) { create(:question) }
+    let!(:new_question) { create(:question) }
+
+    it 'subscription user' do
+      create(:subscription, user: user, question: question)
+      expect(user).to be_subscribed(question)
+    end
+
+    it 'unsubscription user' do
+      expect(user).not_to be_subscribed(new_question)
     end
   end
 
