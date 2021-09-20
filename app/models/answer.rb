@@ -13,6 +13,8 @@ class Answer < ApplicationRecord
 
   accepts_nested_attributes_for :links, reject_if: :all_blank, allow_destroy: true
 
+  after_create :send_notifications
+
   validates :body, presence: true
 
   def switch_best
@@ -23,5 +25,11 @@ class Answer < ApplicationRecord
       update!(best: true)
       question.reward&.update!(user: user)
     end
+  end
+
+  private
+
+  def send_notifications
+    NotificationJob.perform_later(self)
   end
 end

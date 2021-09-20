@@ -31,6 +31,7 @@ class Ability
     can :create, [Question, Answer]
     can :update, [Question, Answer], user_id: user.id
     can :destroy, [Question, Answer], user_id: user.id
+    can :subscribe, Question
 
     can :select_best, Answer do |answer|
       user.author_of?(answer.question)

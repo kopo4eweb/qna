@@ -9,6 +9,7 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   has_one :reward, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   has_many_attached :files
 
@@ -17,5 +18,13 @@ class Question < ApplicationRecord
 
   scope :created_in_a_day, -> { where('created_at >= ?', 1.day.ago) }
 
+  after_create :subscribe_author
+
   validates :title, :body, presence: true
+
+  private
+
+  def subscribe_author
+    subscriptions.create!(user: user)
+  end
 end

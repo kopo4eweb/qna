@@ -41,6 +41,8 @@ RSpec.describe 'Ability' do
 
     it { should be_able_to :index, Reward }
 
+    it { should be_able_to :subscribe, Question }
+
     describe 'Question' do
       it { should be_able_to :create, Question }
       it { should be_able_to :update, question }

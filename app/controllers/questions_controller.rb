@@ -2,7 +2,7 @@
 
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :load_question, only: %i[show update destroy]
+  before_action :load_question, only: %i[show update destroy subscribe]
 
   authorize_resource
 
@@ -45,6 +45,17 @@ class QuestionsController < ApplicationController
     @question.destroy
     send_question('destroy')
     redirect_to questions_path, notice: "Question #{@question.title} delete."
+  end
+
+  def subscribe
+    @subscription = @question.subscriptions.find_by(user: current_user)
+    if @subscription
+      @subscription.destroy
+      flash.now[:alert] = 'You have unsubscribed to updates on this issue.'
+    else
+      @question.subscriptions.create(user: current_user)
+      flash.now[:notice] = 'You have subscribed to updates on this issue.'
+    end
   end
 
   private

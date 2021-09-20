@@ -11,6 +11,16 @@
 
   h1= @question.title
   p= @question.body
+
+  - if can?(:subscribe, @question)
+    - is_subscribe = current_user.subscribed?(@question)
+    - subscribe_label = is_subscribe ? 'Unsubscribe' : 'Subscribe'
+    - subscribe_class = is_subscribe ? 'btn-info' : 'btn-outline-info'
+    hr
+    p.text-secondary.text-center
+      span.d-inline-block.me-2 Follow the question
+      = link_to subscribe_label, subscribe_question_path(@question), remote: true, class: "btn-subscribe btn btn-sm #{subscribe_class}", data: { label_subscribe: 'Subscribe', label_unsubscribe: 'Unsubscribe' }
+
   = render 'shared/files', resource: @question
   = render 'shared/links', resource: @question
   hr

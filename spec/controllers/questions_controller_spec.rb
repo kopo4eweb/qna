@@ -206,6 +206,43 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+  describe 'GET #subscribe' do
+    let!(:user) { create(:user) }
+    let!(:question) { create(:question) }
+
+    before { login(user) }
+
+    it 'assigns the requested question to @question' do
+      get :subscribe, params: { id: question.id }, xhr: true
+      expect(assigns(:question)).to eq question
+    end
+
+    it 'creates new Subscription for user' do
+      expect do
+        get :subscribe, params: { id: question.id }, xhr: true
+      end.to change(Subscription, :count).by(1)
+    end
+
+    it 'notifies user' do
+      get :subscribe, params: { id: question.id }, xhr: true
+      expect(response).to render_template :subscribe
+    end
+
+    context 'when user already subscribed' do
+      it 'unsubscribes' do
+        question.subscriptions.create(user: user)
+        expect do
+          get :subscribe, params: { id: question.id }, xhr: true
+        end.to change(Subscription, :count).by(-1)
+      end
+
+      it 'notifies user' do
+        get :subscribe, params: { id: question.id }, xhr: true
+        expect(response).to render_template :subscribe
+      end
+    end
+  end
+
   it_behaves_like 'voted'
 
   it_behaves_like 'commented'
