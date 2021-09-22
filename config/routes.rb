@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get :search, to: 'search#search'
+
   get '/user/email', to: 'users#email', as: 'email'
   post '/user/set_email', to: 'users#set_email', as: 'set_email'
 

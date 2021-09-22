@@ -8,9 +8,9 @@ feature 'User can edit his question', %q(
   As an author of question
   I'd like to be able to edit my question
 ) do
-  given(:user) { create(:user) }
+  given!(:user) { create(:user) }
   given!(:question) { create(:question) }
-  given(:google_url) { 'https://google.com' }
+  given!(:google_url) { 'https://google.com' }
 
   scenario 'Unauthenticated can not edit answer' do
     visit questions_path
@@ -83,6 +83,7 @@ feature 'User can edit his question', %q(
         click_on 'Save'
       end
 
+      visit root_path
       visit question_path(question)
       expect(page).to have_link 'My google', href: google_url
 
@@ -94,6 +95,7 @@ feature 'User can edit his question', %q(
         click_on 'Save'
       end
 
+      visit root_path
       visit question_path(question)
       expect(page).not_to have_link 'My google'
     end
