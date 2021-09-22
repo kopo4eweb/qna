@@ -15,8 +15,8 @@ feature 'User can to look a question and answers for it', %q(
 
     visit question_path(question)
 
-    expect(page).to have_content 'MyString'
-    expect(page).to have_content 'MyText'
+    expect(page).to have_content 'Question title'
+    expect(page).to have_content 'Answer'
 
     expect(page).to have_content answers[0].body
     expect(page).to have_content answers[1].body

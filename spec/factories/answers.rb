@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   sequence :body do |n|
-    "MyText #{n} Answer"
+    "Answer body #{n}"
   end
 
   factory :answer do

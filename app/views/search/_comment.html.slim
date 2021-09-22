@@ -1,0 +1,10 @@
+- link = ''
+- if resource.commentable.is_a? Question
+  - link = link_to resource.body.truncate(25), question_path(resource.commentable)
+- else
+  - link = link_to resource.body.truncate(25), question_path(resource.commentable.question)
+
+p
+  span.d-inline-block.me-2.text-secondary Comment:
+  span= link.html_safe
+

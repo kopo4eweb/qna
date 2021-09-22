@@ -1,0 +1,12 @@
+h2 Search results
+
+.search-results
+  - if @search_result.present?
+    - @search_result.each do |result|
+      = render "search/#{result.class.to_s.downcase}", resource: result
+  - else
+    p.text-secondary.fs-3 Not found
+
+
+  hr
+  = will_paginate @search_result
