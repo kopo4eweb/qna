@@ -26,3 +26,7 @@ end
 every 20.minute do
   runner 'NotificationJob.perform_now'
 end
+
+every 30.minute do
+  rake 'ts:index'
+end
