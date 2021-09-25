@@ -1,10 +1,12 @@
-$('.answers_errors').html('<%= render 'shared/errors', resource: @answer %>');
+<% if @answer&.errors.present? %>
+ $('.answers_errors').html('<%= j render 'shared/errors', resource: @answer %>');
+<% end %>
 
 <% if @answer.persisted? %>
   $('.answers').append('<%= j render @answer %>');
   $('.new-answer #answer_body').val('');
 
-  const nestedFieldsAnswer = $('.new-answer .nested-fields');
+  var nestedFieldsAnswer = $('.new-answer .add-links .nested-fields');
   if (nestedFieldsAnswer.length) {
     nestedFieldsAnswer.each(function (index){
       if (index === 0) {
@@ -12,6 +14,17 @@ $('.answers_errors').html('<%= render 'shared/errors', resource: @answer %>');
       } else {
         $(this).remove();
       }
+    });
+  }
+
+  var uploadFilesAnswer = $('.new-answer .upload-files');
+  if (uploadFilesAnswer.length) {
+    uploadFilesAnswer.find('#answer_files').removeAttr('disabled').val('');
+    uploadFilesAnswer.find('.direct-upload').each(function() {
+      $(this).remove();
+    });
+    uploadFilesAnswer.find('input[type=hidden]').each(function() {
+      $(this).remove();
     });
   }
 <% end %>

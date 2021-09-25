@@ -2,7 +2,7 @@
   .mb-3
     = f.label :body, class: "form-label"
     = f.text_area :body, class: "form-control"
-  .mb-3
+  .mb-3.upload-files
     = f.label :files, class: "form-label"
     = f.file_field :files, class: "form-control", multiple: true, direct_upload: true
 
