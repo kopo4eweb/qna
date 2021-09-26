@@ -65,18 +65,16 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "qna_production"
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: 'smtp.yandex.ru', from: Rails.application.credentials[Rails.env.to_sym][:yandex][:user] }
+  config.action_mailer.default_url_options = { host: 'qna.kopo4e.ru' }
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.smtp_settings = {
-    :tls                   =>  true,
-    :address               => Rails.application.credentials[Rails.env.to_sym][:yandex][:user],
-    :port                  => 465,
-    :authentication        => :plain,
-    :user_name             => Rails.application.credentials[Rails.env.to_sym][:yandex][:user],
-    :password              => Rails.application.credentials[Rails.env.to_sym][:yandex][:password],
-    :enable_starttls_auto  => true
+    address:              'smtp.timeweb.ru',
+    port:                 25,
+    domain:               'qna.kopo4e.ru',
+    user_name:            Rails.application.credentials[Rails.env.to_sym][:timeweb][:user_name],
+    password:             Rails.application.credentials[Rails.env.to_sym][:timeweb][:password],
+    authentication:       'plain',
+    enable_starttls_auto: true
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.
