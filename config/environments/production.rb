@@ -65,7 +65,7 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "qna_production"
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: 'qna.kopo4e.ru' }
+  config.action_mailer.default_url_options = { host: 'https://qna.kopo4e.ru' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address:              'smtp.timeweb.ru',
