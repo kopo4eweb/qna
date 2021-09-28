@@ -65,6 +65,7 @@ gem 'thinking-sphinx', '~> 4.0'
 gem 'mysql2', '~> 0.4.10'
 
 gem 'will_paginate', '~> 3.1.0'
+gem 'unicorn'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -88,7 +89,8 @@ group :development do
   gem 'spring'
   gem 'capistrano', require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano-passenger', require: false
+  # gem 'capistrano-passenger', require: false
+  gem 'capistrano3-unicorn', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
