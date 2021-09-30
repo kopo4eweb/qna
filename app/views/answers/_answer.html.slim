@@ -1,7 +1,7 @@
 -if answer.persisted?
   .card.mb-3 class="answer-#{answer.id}"
     .card-header
-      .text-secondary.d-inline-block.me-4 = answer.user.email
+      / .text-secondary.d-inline-block.me-4 = answer.user.email
       - if answer.best?
         span.badge.rounded-pill.bg-warning.text-dark.best_answer_of_question Best answer!
 
