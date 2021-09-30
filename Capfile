@@ -12,8 +12,6 @@ require "thinking_sphinx/capistrano"
 require "whenever/capistrano"
 
 require "capistrano/sidekiq"
-install_plugin Capistrano::Sidekiq
-install_plugin Capistrano::Sidekiq::Systemd
 
 # Load the SCM plugin appropriate to your project:
 #
