@@ -1,42 +1,43 @@
 -if answer.persisted?
-  .card.mb-3 class="answer-#{answer.id}"
-    .card-header
-      / .text-secondary.d-inline-block.me-4 = answer.user.email
-      - if answer.best?
-        span.badge.rounded-pill.bg-warning.text-dark.best_answer_of_question Best answer!
+  - cache [current_user, answer] do
+    .card.mb-3 class="answer-#{answer.id}"
+      .card-header
+        / .text-secondary.d-inline-block.me-4 = answer.user.email
+        - if answer.best?
+          span.badge.rounded-pill.bg-warning.text-dark.best_answer_of_question Best answer!
 
-      - if current_user && can?(:select_best, answer)
-        = link_to 'Make it best',
-                select_best_answer_path(answer),
-                class: "btn btn-success btn-sm answer-make-best",
-                style: "#{answer.best? ? 'display: none;' : ''}",
-                method: :patch,
-                remote: true
-    .card-body
-      .mb-3
-        = answer.body
-      = render 'shared/files', resource: answer, current_user: current_user
-      = render 'shared/links', resource: answer, current_user: current_user
-      hr
-      = render 'shared/vote', resource: answer, current_user: current_user
-      hr
-      = render 'comments/comments', resource: answer, current_user: current_user
+        - if current_user && can?(:select_best, answer)
+          = link_to 'Make it best',
+                  select_best_answer_path(answer),
+                  class: "btn btn-success btn-sm answer-make-best",
+                  style: "#{answer.best? ? 'display: none;' : ''}",
+                  method: :patch,
+                  remote: true
+      .card-body
+        .mb-3
+          = answer.body
+        = render 'shared/files', resource: answer, current_user: current_user, cache: ['for_files', answer]
+        = render 'shared/links', resource: answer, current_user: current_user, cache: ['for_links', answer]
+        hr
+        = render 'shared/vote', resource: answer, current_user: current_user, cache: ['for_vote', answer]
+        hr
+        = render 'comments/comments', resource: answer, current_user: current_user, cache: ['for_comments', answer]
 
-    - if current_user && can?(:destroy, answer)
-      .card-footer
-        div class="answer-danger-#{answer.id}"
-        .text-end
-          = link_to 'Edit answer', '#', class: "edit-answer-link btn btn-primary btn-sm me-3", data: { answer_id: answer.id }
-          = link_to 'Delete answer',
-                  answer_path(answer),
-                  method: :delete,
-                  remote: true,
-                  data: { confirm: 'Are you sure?' },
-                  class: "btn btn-outline-danger btn-sm"
+      - if current_user && can?(:destroy, answer)
+        .card-footer
+          div class="answer-danger-#{answer.id}"
+          .text-end
+            = link_to 'Edit answer', '#', class: "edit-answer-link btn btn-primary btn-sm me-3", data: { answer_id: answer.id }
+            = link_to 'Delete answer',
+                    answer_path(answer),
+                    method: :delete,
+                    remote: true,
+                    data: { confirm: 'Are you sure?' },
+                    class: "btn btn-outline-danger btn-sm"
 
-      .card.shadow.mt-3 style="display: none;" class="edit-answer-#{answer.id}"
-        .card-body.p-9
-          div class="answer-errors-#{answer.id}"
-            = render 'shared/errors', resource: answer
+        .card.shadow.mt-3 style="display: none;" class="edit-answer-#{answer.id}"
+          .card-body.p-9
+            div class="answer-errors-#{answer.id}"
+              = render 'shared/errors', resource: answer
 
-          = render partial: 'answers/form', locals: { model: answer, answer: answer }
+            = render partial: 'answers/form', locals: { model: answer, answer: answer }

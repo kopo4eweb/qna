@@ -1,32 +1,33 @@
-.question-detail class = "question-#{@question.id}"
-  .mb-3
-    = link_to "back", questions_path, class: "btn btn-secondary"
-    - if can?(:destroy, @question)
-      .float-end= link_to 'Delete question',
-              @question,
-              method: :delete,
-              data: { confirm: 'Are you sure?' },
-              class: "btn btn-danger"
+- cache [current_user, @question] do
+  .question-detail class = "question-#{@question.id}"
+    .mb-3
+      = link_to "back", questions_path, class: "btn btn-secondary"
+      - if can?(:destroy, @question)
+        .float-end= link_to 'Delete question',
+                @question,
+                method: :delete,
+                data: { confirm: 'Are you sure?' },
+                class: "btn btn-danger"
 
 
-  h1= @question.title
-  p= @question.body
+    h1= @question.title
+    p= @question.body
 
-  - if can?(:subscribe, @question)
-    - is_subscribe = current_user.subscribed?(@question)
-    - subscribe_label = is_subscribe ? 'Unsubscribe' : 'Subscribe'
-    - subscribe_class = is_subscribe ? 'btn-info' : 'btn-outline-info'
+    - if can?(:subscribe, @question)
+      - is_subscribe = current_user.subscribed?(@question)
+      - subscribe_label = is_subscribe ? 'Unsubscribe' : 'Subscribe'
+      - subscribe_class = is_subscribe ? 'btn-info' : 'btn-outline-info'
+      hr
+      p.text-secondary.text-center
+        span.d-inline-block.me-2 Follow the question
+        = link_to subscribe_label, subscribe_question_path(@question), remote: true, class: "btn-subscribe btn btn-sm #{subscribe_class}", data: { label_subscribe: 'Subscribe', label_unsubscribe: 'Unsubscribe' }
+
+    = render 'shared/files', resource: @question, cache: ['for_files', @question]
+    = render 'shared/links', resource: @question, cache: ['for_links', @question]
     hr
-    p.text-secondary.text-center
-      span.d-inline-block.me-2 Follow the question
-      = link_to subscribe_label, subscribe_question_path(@question), remote: true, class: "btn-subscribe btn btn-sm #{subscribe_class}", data: { label_subscribe: 'Subscribe', label_unsubscribe: 'Unsubscribe' }
-
-  = render 'shared/files', resource: @question
-  = render 'shared/links', resource: @question
-  hr
-  = render 'shared/vote', resource: @question
-  hr
-  = render 'comments/comments', resource: @question
+    = render 'shared/vote', resource: @question, cache: ['for_vote', @question]
+    hr
+    = render 'comments/comments', resource: @question, cache: ['for_comments', @question]
 
 
 .mt-5

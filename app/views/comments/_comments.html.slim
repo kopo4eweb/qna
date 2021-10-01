@@ -4,7 +4,7 @@ ul class="comment-list-#{resource.class.to_s.downcase}-#{resource.id}"
     = render comment, resource: resource
 
 .mt-2
-  - if current_user
+  - if current_user.present?
     .text-center
       = link_to 'Add comment',
               '#',
