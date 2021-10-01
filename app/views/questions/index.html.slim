@@ -3,5 +3,6 @@
     p= link_to 'Ask question', new_question_path, class: 'btn btn-primary'
   h1 List question
 
-.questions
-  = render @questions
+- cache [current_user, collection_cache_key_for(:question)] do
+  .questions
+    = render @questions

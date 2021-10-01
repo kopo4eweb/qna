@@ -5,7 +5,7 @@ class Answer < ApplicationRecord
   include Commentable
 
   belongs_to :user
-  belongs_to :question
+  belongs_to :question, touch: true
 
   has_many :links, dependent: :destroy, as: :linkable
 

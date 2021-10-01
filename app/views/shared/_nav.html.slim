@@ -8,7 +8,8 @@ header
           ul.navbar-nav
             li.nav-item.dropdown
               a.nav-link.dropdown-toggle id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" href="#" role="button"
-                = current_user.email
+                span.badge.bg-warning.text-dark= "Admin" if current_user.admin?
+                = " #{current_user.email}"
               .dropdown-menu aria-labelledby="userDropdown"
                 = link_to 'Rewards', reward_path, class: "dropdown-item"
                 = link_to 'Edit profile', edit_user_registration_path, class: "dropdown-item"
