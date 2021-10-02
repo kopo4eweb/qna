@@ -5,7 +5,9 @@ class AttachmentsController < ApplicationController
     @file = ActiveStorage::Attachment.find(params[:id])
 
     authorize! :destroy, @file
+    # rubocop:disable Rails/SkipsModelValidations
     @file.record.touch
+    # rubocop:enable Rails/SkipsModelValidations
     @file.purge
     flash.now.notice = 'Your file removed.'
   end
