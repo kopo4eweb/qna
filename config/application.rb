@@ -38,6 +38,14 @@ module Qna
                        request_specs: false
     end
 
-    config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
+    # config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
+    config.cache_store = :redis_cache_store, {
+      url: 'redis://localhost:6379/0/cache',
+      connect_timeout: 30,     # По умолчанию 20 секунд
+      read_timeout: 0.2,    # По умолчанию 1 секунда
+      write_timeout: 0.2,    # По умолчанию 1 секунда
+      reconnect_attempts: 1,   # По умолчанию 0
+      expires_in: 90.minutes
+    }
   end
 end
