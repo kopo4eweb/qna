@@ -15,6 +15,3 @@ append :linked_files, "config/database.yml", "config/master.key"
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "storage", "node_modules"
 
 after "deploy:published", "unicorn:restart"
-after "deploy:published", "thinking_sphinx:configure"
-after "thinking_sphinx:configure", "thinking_sphinx:index"
-after "thinking_sphinx:index", "thinking_sphinx:restart"
